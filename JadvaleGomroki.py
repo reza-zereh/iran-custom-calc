@@ -1,7 +1,19 @@
 import math
 
-nerkhArz = input("Nerkhe Arz? ")
-amount = input("Arzeshe kala? ")
+def getNumInput(message):
+	while True:
+		try:
+			_num = input(message)
+			break
+		except NameError:
+			print "ERROR!! Lotfan meghdare addadi vared konid..."
+		except SyntaxError:
+			print "ERROR!! Lotfan meghdare addadi vared konid..."
+			
+	return _num
+
+nerkhArz = getNumInput("Nerkhe Arz? ")
+amount = getNumInput("Arzeshe kala? ")
 arzesh = nerkhArz * amount
 if math.modf(arzesh)[0] >= 0.5:
     arzesh = math.ceil(arzesh)
@@ -11,8 +23,8 @@ else:
 hasFreight = raw_input("Aya keraye haml darad?(Y/N) ")
 freight = 1.0;
 if hasFreight.lower() == 'y':
-    nerkheArzeFrieght = input("Nerkhe arze keraye haml? ")
-    freight = input("Keraye haml? ")
+    nerkheArzeFrieght = getNumInput("Nerkhe arze keraye haml? ")
+    freight = getNumInput("Keraye haml? ")
     freight = freight * nerkheArzeFrieght
     if math.modf(freight)[0] >= 0.5:
         freight = math.ceil(freight)
@@ -22,12 +34,12 @@ if hasFreight.lower() == 'y':
 insurance = 0;
 hasInsurance = raw_input("Aya kala bimeh nameh darad?(Y/N) ")
 if hasInsurance.lower() == 'y':
-    insurance = input("Bimeh>? ")
+    insurance = getNumInput("Bimeh? ")
 else:
     insurance = math.ceil((arzesh + freight) * 0.5 / 100)
 
 arzeshGomroki = arzesh + freight + insurance
-rate = input("Maakhaz? ")
+rate = getNumInput("Maakhaz gomroki? ")
 hoghoogh = arzeshGomroki * rate / 100
 if math.modf(hoghoogh)[0] >= 0.5:
     hoghoogh = math.ceil(hoghoogh)
@@ -69,4 +81,5 @@ print 'Maliat 3 darsad: %d ' %maliat3Darsad
 print '_' * 35
 print 'Jame kol: %d ' %total
 
-input()
+raw_input("\nPress enter to exit...")
+exit()
