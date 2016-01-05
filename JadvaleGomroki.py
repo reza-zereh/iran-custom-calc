@@ -5,7 +5,7 @@ def getNumInput(message=""):
         Keep getting input from user while its a coorect input and return the number. """
 	while True:
 		try:
-			_num = int(raw_input(message).strip())
+			_num = float(raw_input(message).strip())
 			break
 		except ValueError:
 			print "ERROR!! Lotfan meghdare addadi vared konid..."			
@@ -20,14 +20,20 @@ def formatOutput(number):
                 return format(number, "03,d")
         return number
 
+def ceilOrFloor(number):
+	""" ceilOrFloor(number) --> float
+	return ceiled number if >=0.5 and floored number if <0.5 """
+	number = float(number)
+	if math.modf(number)[0] >= 0.5:
+		return math.ceil(number)
+	else:
+		return math.floor(number)
+	
 # Value
 nerkhArz = getNumInput("Nerkhe Arz? ")
 amount = getNumInput("Arzeshe kala? ")
 arzesh = nerkhArz * amount
-if math.modf(arzesh)[0] >= 0.5:
-    arzesh = math.ceil(arzesh)
-else:
-    arzesh = math.floor(arzesh)
+arzesh = ceilOrFloor(arzesh)
 
 # Freight
 hasFreight = raw_input("Aya keraye haml darad?(Y/N) ")
@@ -35,10 +41,7 @@ if hasFreight.lower() == 'y':
     nerkheArzeFrieght = getNumInput("Nerkhe arze keraye haml? ")
     freight = getNumInput("Keraye haml? ")
     freight = freight * nerkheArzeFrieght
-    if math.modf(freight)[0] >= 0.5:
-        freight = math.ceil(freight)
-    else:
-        freight = math.floor(freight)
+    freight = ceilOrFloor(freight)
 else:
         freight = 1.0
 
@@ -53,28 +56,16 @@ else:
 arzeshGomroki = arzesh + freight + insurance
 rate = getNumInput("Maakhaz gomroki? ")
 hoghoogh = arzeshGomroki * rate / 100
-if math.modf(hoghoogh)[0] >= 0.5:
-    hoghoogh = math.ceil(hoghoogh)
-else:
-    hoghoogh = math.floor(hoghoogh)
+hoghoogh = ceilOrFloor(hoghoogh)
 
 nimDarsad = hoghoogh * 0.5 / 100
-if math.modf(nimDarsad)[0] >= 0.5:
-    nimDarsad = math.ceil(nimDarsad)
-else:
-    nimDarsad = math.floor(nimDarsad)
+nimDarsad = ceilOrFloor(nimDarsad)
 
 maliat6Darsad = (arzeshGomroki + hoghoogh) * 6 / 100
-if math.modf(maliat6Darsad)[0] >= 0.5:
-    maliat6Darsad = math.ceil(maliat6Darsad)
-else:
-    maliat6Darsad = math.floor(maliat6Darsad)
+maliat6Darsad = ceilOrFloor(maliat6Darsad)
 
 maliat3Darsad = (arzeshGomroki + hoghoogh) * 3 / 100
-if math.modf(maliat3Darsad)[0] >= 0.5:
-    maliat3Darsad = math.ceil(maliat3Darsad)
-else:
-    maliat3Darsad = math.floor(maliat3Darsad)
+maliat3Darsad = ceilOrFloor(maliat3Darsad)
 
 total = hoghoogh + nimDarsad + maliat6Darsad + maliat3Darsad
 
