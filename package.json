@@ -1,0 +1,23 @@
+{
+  "name": "iran-custom-calc",
+  "version": "2.0.0",
+  "description": "Simple handy application for calculating Iranian customs declaration and warehouse prices",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ironcladgeek/iran-custom-calc.git"
+  },
+  "keywords": [
+    "iran",
+    "customs"
+  ],
+  "author": "M. Reza Zerehpoosh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ironcladgeek/iran-custom-calc/issues"
+  },
+  "homepage": "https://github.com/ironcladgeek/iran-custom-calc#readme"
+}
