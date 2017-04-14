@@ -4,7 +4,9 @@
   "description": "Simple handy application for calculating Iranian customs declaration and warehouse prices",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+    "dev": "webpack",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "repository": {
     "type": "git",
@@ -19,5 +21,23 @@
   "bugs": {
     "url": "https://github.com/ironcladgeek/iran-custom-calc/issues"
   },
-  "homepage": "https://github.com/ironcladgeek/iran-custom-calc#readme"
+  "homepage": "https://github.com/ironcladgeek/iran-custom-calc#readme",
+  "dependencies": {
+    "bulma": "^0.4.0",
+    "vue": "^2.2.6"
+  },
+  "devDependencies": {
+    "babel-core": "^6.0.0",
+    "babel-loader": "^6.0.0",
+    "babel-preset-latest": "^6.0.0",
+    "cross-env": "^3.0.0",
+    "css-loader": "^0.25.0",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.9.0",
+    "style-loader": "^0.16.1",
+    "vue-loader": "^11.3.4",
+    "vue-template-compiler": "^2.2.1",
+    "webpack": "^2.3.3",
+    "webpack-dev-server": "^2.2.0"
+  }
 }
