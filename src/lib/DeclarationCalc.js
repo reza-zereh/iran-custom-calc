@@ -119,6 +119,7 @@ class DeclarationCalc {
                 item.environment_042 = Math.ceil(item.totalCIF * 0.5 / 1000);
                 item.tax_047 = Math.round((item.value_041 + item.totalCIF) * 6 / 100);
                 item.tax_048 = Math.round((item.value_041 + item.totalCIF) * 3 / 100);
+                item.itemTotal = item.value_041 + item.redCross_042 + item.environment_042 + item.tax_047 + item.tax_048;
             });
     }
 
