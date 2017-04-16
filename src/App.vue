@@ -1,11 +1,14 @@
 <template>
   <div id="app">
-    <h1 class="title is-1">Hello</h1>
+
+    <dcn-basics></dcn-basics>
   </div>
 </template>
 
 <script>
-  export default {
+  import DcnBasics from './components/DcnBasics.vue';
 
+  export default {
+    components: {DcnBasics}
   }
 </script>
