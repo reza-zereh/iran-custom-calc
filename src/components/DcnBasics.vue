@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form method="post" @submit.prevent="">
+        <form method="post" @submit.prevent="recordInfo">
             <legend class="title is-2">اطلاعات پایه اظهارنامه</legend>
             <div class="columns">
                 <div class="column">
@@ -36,14 +36,14 @@
                             :checked="hasFreightCharge"
                             @click="hasFreightToggle"
                         >
-                        بلی
+                        &nbsp;بلی
                     </label>
                     <label class="radio">
                         <input type="radio" name="has_freight" required 
                             :checked="hasFreightCharge == false"
                             @click="hasFreightToggle"
                         >
-                        خیر
+                        &nbsp;خیر
                     </label>
                 </p>
             </div>
@@ -81,14 +81,14 @@
                             :checked="hasInsurance"
                             @click="hasInsuranceToggle"
                         >
-                        بلی
+                        &nbsp;بلی
                     </label>
                     <label class="radio">
                         <input type="radio" name="has_insurance" required 
                             :checked="hasInsurance == false"
                             @click="hasInsuranceToggle"
                         >
-                        خیر
+                        &nbsp;خیر
                     </label>
                 </p>
                 
@@ -115,6 +115,14 @@
 
 <script>
     export default {
+        props: {
+            // this property comes from parent component to share this component's data
+            basicInfo: {
+                required: true,
+                type: Object
+            }
+        },
+
         data() {
             return {
                 invoiceTotal: 0,
@@ -135,6 +143,18 @@
 
             hasInsuranceToggle() {
                 this.hasInsurance = !this.hasInsurance;
+            },
+
+            // save this component's data into parent's basicInfo object when submitting form
+            recordInfo() {
+                this.basicInfo.invoiceTotal        = this.invoiceTotal;
+                this.basicInfo.invoiceExchangeRate = this.invoiceExchangeRate;
+                this.basicInfo.itemsCount          = this.itemsCount;
+                this.basicInfo.hasFreightCharge    = this.hasFreightCharge;
+                this.basicInfo.freightCharge       = this.freightCharge;
+                this.basicInfo.freightExchangeRate = this.freightExchangeRate;
+                this.basicInfo.hasInsurance        = this.hasInsurance;
+                this.basicInfo.insuranceCost       = this.insuranceCost;
             }
         }
     }
