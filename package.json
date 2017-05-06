@@ -1,6 +1,6 @@
 {
   "name": "@ironcladgeek/iran-custom-calc",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Simple handy application for calculating Iranian customs declaration and warehouse prices",
   "main": "index.js",
   "scripts": {
