@@ -9,7 +9,7 @@
             <label class="label">ارزش کل فاکتور</label>
             <p class="control">
               <input class="input"
-                     type="number"
+                     type="text"
                      required
                      v-model="invoiceTotal">
             </p>

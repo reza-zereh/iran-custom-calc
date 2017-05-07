@@ -1,7 +1,7 @@
 'use strict';
 
 // TODO: add a feature to calc insurance cost automatically when declaration is a part of performa
-class DeclarationCalc {
+export default class DeclarationCalc {
 
   constructor(itemsCount, invoiceTotal) {
     this.itemsCount = itemsCount;
@@ -138,4 +138,4 @@ class DeclarationCalc {
   }
 }
 
-module.exports = DeclarationCalc;
+// module.exports = DeclarationCalc;

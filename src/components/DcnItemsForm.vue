@@ -36,6 +36,9 @@
             },
             collectItemsCost() {
                 Event.$emit('collectItemsCost');
+                setTimeout(() => {
+                    Event.$emit('itemsCostCollected');
+                }, 500);
             }
         }
     }
