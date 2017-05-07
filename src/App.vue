@@ -2,12 +2,21 @@
   <div id="app">
 
     <dcn-basics :basic-info="declarationBasics" v-if="isDcnBasicsActive"></dcn-basics>
-    <div v-if="!isDcnBasicsActive">
+
+    <div v-if="isDcnItemsFormActive">
       <dcn-items-form 
         :items-count="declarationBasics.itemsCount"
-        :declaration-items="declarationItems">
+        :declaration-items="declarationItems"
+      >
       </dcn-items-form>
     </div>
+
+    <div v-if="isDcnResultActive" style="direction: ltr;">
+      <pre>
+        {{calculatedDeclaration}}
+      </pre>
+    </div>
+
   </div>
 </template>
 
@@ -27,6 +36,8 @@
     data() {
       return {
         isDcnBasicsActive: true,
+        isDcnItemsFormActive: false,
+        isDcnResultActive: false,
 
         declarationBasics: {
           invoiceTotal: 0,
@@ -41,7 +52,8 @@
 
         declarationItems: [],
         prices: [],
-        rates: []
+        rates: [],
+        calculatedDeclaration: {} 
       }
     },
 
@@ -49,9 +61,13 @@
       // TODO: Use vue-router instead of v-if and these booleans
       Event.$on('backToDcnBasics', () => {
         this.isDcnBasicsActive = true;
+        this.isDcnItemsFormActive = false;
+        this.isDcnResultActive = false;
       }),
       Event.$on('basicInfoCollected', () => {
+        this.isDcnItemsFormActive = true;
         this.isDcnBasicsActive = false;
+        this.isDcnResultActive = false;
       }),
 
       // Fires when declaration items are collected
@@ -63,6 +79,10 @@
           this.rates[item.itemNumber - 1] = Number(item.rate);
         });
         this.executeDeclarationCalcs();
+        
+        this.isDcnResultActive = true;
+        this.isDcnItemsFormActive = false;
+        this.isDcnBasicsActive = false;
       })
     },
 
@@ -91,7 +111,8 @@
         // TODO: Show result in a new component instead of console
         // Print result to the console
         declaration.print();
-        alert('Check the console for result!');
+
+        this.calculatedDeclaration = declaration.getItems();
       }
 
     }

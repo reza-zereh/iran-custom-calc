@@ -4,19 +4,19 @@
 export default class DeclarationCalc {
 
   constructor(itemsCount, invoiceTotal) {
-    this.itemsCount = itemsCount;
+    this.itemsCount   = itemsCount;
     this.invoiceTotal = invoiceTotal;
-    this.declaration = {
+    this.declaration  = {
       items: [],
       invoiceExchangeRate: 0,
       freight: {
-        price: 0,
+        price       : 0,
         exchangeRate: 1,
-        priceInRial: 0
+        priceInRial : 0
       },
       insurance: 0
     };
-    this.hasFreight = false;
+    this.hasFreight   = false;
     this.hasInsurance = false;
   }
 
@@ -39,12 +39,8 @@ export default class DeclarationCalc {
     }
 
     this.declaration.invoiceExchangeRate = Number(priceExchangeRate);
-    this.declaration.freight.price = Number(freight);
-    this.declaration.freight.exchangeRate = Number(freightExchangeRate);
-    this.declaration.freight.priceInRial = this.declaration.freight.price * this.declaration.freight.exchangeRate;
-    this.declaration.insurance = Number(insurance);
 
-    this.haveFreightAndInsurance(freight, insurance);
+    this.setFreightAndInsurance(freight, freightExchangeRate, insurance);
     this.buildItems(prices, rates);
 
     if (!this.checkItemsTotal()) {
@@ -53,20 +49,34 @@ export default class DeclarationCalc {
   }
 
   /**
-   * set 'hasFreight' and 'hasInsurance' and calculate insurance price if does not have any insurance
+   * set `hasFreight` and `hasInsurance`, also set `freight` and `insurance`
    * 
    * @param {Number} freight 
+   * @param {Number} freightExchangeRate
    * @param {Number} insurance 
    */
-  haveFreightAndInsurance(freight, insurance) {
-    this.hasFreight = freight > 1 ? true : false;
-    this.hasInsurance = insurance > 1 ? true : false;
+  setFreightAndInsurance(freight, freightExchangeRate, insurance) {
+    this.hasFreight   = freight > 1 ? true  : false;
+    this.hasInsurance = insurance > 1 ? true: false;
 
-    // In case there is no insurance letter
+    // Setting freight
+    if (!this.hasFreight) {
+      this.declaration.freight.price        = 1;
+      this.declaration.freight.exchangeRate = 1;
+      this.declaration.freight.priceInRial  = 1;
+    } else {
+      this.declaration.freight.price        = Number(freight);
+      this.declaration.freight.exchangeRate = Number(freightExchangeRate);
+      this.declaration.freight.priceInRial  = this.declaration.freight.price * this.declaration.freight.exchangeRate;
+    }
+
+    // Setting insurance
     if (!this.hasInsurance) {
       this.declaration.insurance = Math.round(
         ((this.invoiceTotal * this.declaration.invoiceExchangeRate) + this.declaration.freight.priceInRial) * 0.5 / 100
       );
+    } else {
+      this.declaration.insurance = Number(insurance);
     }
   }
 
@@ -79,16 +89,16 @@ export default class DeclarationCalc {
   buildItems(prices, rates) {
     // Convert 'prices' and 'rates' array items to number
     prices = prices.map(item => Number(item));
-    rates = rates.map(item => Number(item));
+    rates  = rates.map(item  => Number(item));
 
     // Build diffrent parts of value table for each item
     for (var i = 0; i < this.itemsCount; i++) {
       this.declaration.items.push({
-        price: prices[i],
+        price      : prices[i],
         priceInRial: Math.round(prices[i] * this.declaration.invoiceExchangeRate),
-        rate: rates[i],
-        freight: this.hasFreight ? Math.round(prices[i] * this.declaration.freight.priceInRial / this.invoiceTotal) : 1,
-        insurance: Math.round(prices[i] * this.declaration.insurance / this.invoiceTotal)
+        rate       : rates[i],
+        freight    : this.hasFreight ? Math.round(prices[i] * this.declaration.freight.priceInRial / this.invoiceTotal): 1,
+        insurance  : Math.round(prices[i] * this.declaration.insurance / this.invoiceTotal)
       });
     }
   }
@@ -113,14 +123,14 @@ export default class DeclarationCalc {
   doCalculations() {
     this.declaration.items
       .forEach(item => {
-        item.totalCIF = item.priceInRial + item.freight + item.insurance;
-        item.value_041 = Math.round(item.totalCIF * item.rate / 100);
+        item.totalCIF        = item.priceInRial + item.freight + item.insurance;
+        item.value_041       = Math.round(item.totalCIF * item.rate / 100);
         // TODO: should read these values from another file
-        item.redCross_042 = Math.ceil(item.value_041 * 1 / 100);
+        item.redCross_042    = Math.ceil(item.value_041 * 1 / 100);
         item.environment_042 = Math.ceil(item.totalCIF * 0.5 / 1000);
-        item.tax_047 = Math.round((item.value_041 + item.totalCIF) * 6 / 100);
-        item.tax_048 = Math.round((item.value_041 + item.totalCIF) * 3 / 100);
-        item.itemTotal = item.value_041 + item.redCross_042 + item.environment_042 + item.tax_047 + item.tax_048;
+        item.tax_047         = Math.round((item.value_041 + item.totalCIF) * 6 / 100);
+        item.tax_048         = Math.round((item.value_041 + item.totalCIF) * 3 / 100);
+        item.itemTotal       = item.value_041 + item.redCross_042 + item.environment_042 + item.tax_047 + item.tax_048;
       });
   }
 

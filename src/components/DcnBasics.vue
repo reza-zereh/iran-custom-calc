@@ -136,14 +136,14 @@ export default {
 
   data() {
     return {
-      invoiceTotal: 0,
-      invoiceExchangeRate: 1,
-      itemsCount: 1,
+      invoiceTotal: '',
+      invoiceExchangeRate: '',
+      itemsCount: '',
       hasFreightCharge: false,
-      freightCharge: 1,
-      freightExchangeRate: 1,
+      freightCharge: '',
+      freightExchangeRate: '',
       hasInsurance: false,
-      insuranceCost: 0
+      insuranceCost: ''
     }
   },
 
@@ -162,8 +162,10 @@ export default {
       this.basicInfo.invoiceExchangeRate = Number(this.invoiceExchangeRate);
       this.basicInfo.itemsCount = Number(this.itemsCount);
       this.basicInfo.hasFreightCharge = this.hasFreightCharge;
-      this.basicInfo.freightCharge = Number(this.freightCharge);
-      this.basicInfo.freightExchangeRate = Number(this.freightExchangeRate);
+      this.basicInfo.freightCharge = Number(this.freightCharge) !== 0 ? 
+        Number(this.freightCharge) : 1;
+      this.basicInfo.freightExchangeRate = Number(this.freightExchangeRate) !== 0 ? 
+        Number(this.freightExchangeRate) : 1;
       this.basicInfo.hasInsurance = this.hasInsurance;
       this.basicInfo.insuranceCost = Number(this.insuranceCost);
 
