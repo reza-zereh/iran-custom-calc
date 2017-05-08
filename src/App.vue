@@ -17,42 +17,42 @@
       </pre>
     </div>
 
+    <!--<router-view></router-view>-->
   </div>
 </template>
 
 <script>
-  import DcnBasics from './components/DcnBasics.vue';
-  import DcnItem from './components/DcnItem.vue';
-  import DcnItemsForm from './components/DcnItemsForm.vue';
   import DeclarationCalc from './lib/DeclarationCalc.js';
+
+  import DcnBasics from './components/DcnBasics.vue';
+  import DcnItemsForm from './components/DcnItemsForm.vue';
 
   export default {
     components: {
-      'dcn-basics': DcnBasics,
-      'dcn-item': DcnItem,
+      'dcn-basics'    : DcnBasics,
       'dcn-items-form': DcnItemsForm
     },
 
     data() {
       return {
-        isDcnBasicsActive: true,
+        isDcnBasicsActive   : true,
         isDcnItemsFormActive: false,
-        isDcnResultActive: false,
+        isDcnResultActive   : false,
 
         declarationBasics: {
-          invoiceTotal: 0,
+          invoiceTotal       : 0,
           invoiceExchangeRate: 1,
-          itemsCount: 1,
-          hasFreightCharge: false,
-          freightCharge: 1,
+          itemsCount         : 1,
+          hasFreightCharge   : false,
+          freightCharge      : 1,
           freightExchangeRate: 1,
-          hasInsurance: false,
-          insuranceCost: 0
+          hasInsurance       : false,
+          insuranceCost      : 0
         },
 
-        declarationItems: [],
-        prices: [],
-        rates: [],
+        declarationItems     : [],
+        prices               : [],
+        rates                : [],
         calculatedDeclaration: {} 
       }
     },
@@ -76,13 +76,13 @@
       Event.$on('itemsCostCollected', () => {
         this.declarationItems.forEach((item) => {
           this.prices[item.itemNumber - 1] = Number(item.price);
-          this.rates[item.itemNumber - 1] = Number(item.rate);
+          this.rates[item.itemNumber - 1]  = Number(item.rate);
         });
         this.executeDeclarationCalcs();
         
-        this.isDcnResultActive = true;
+        this.isDcnResultActive    = true;
         this.isDcnItemsFormActive = false;
-        this.isDcnBasicsActive = false;
+        this.isDcnBasicsActive    = false;
       })
     },
 
